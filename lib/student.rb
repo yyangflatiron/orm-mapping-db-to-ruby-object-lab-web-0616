@@ -99,7 +99,7 @@ class Student
     SQL
     array = DB[:conn].execute(sql).first
     self.all.find do |x|
-      x.name == array[1]
+      x.id == array[0]
     end
   end
 

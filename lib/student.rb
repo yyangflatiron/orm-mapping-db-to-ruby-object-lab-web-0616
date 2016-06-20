@@ -88,19 +88,24 @@ class Student
       SELECT * FROM students WHERE grade = 10 
       LIMIT ?
     SQL
-    DB[:conn].execute(sql,x)
+
+    DB[:conn].execute(sql,x).map do |student|
+      self.new_from_db(student)
+    end
 
   end
 
   def self.first_student_in_grade_10
-    sql = <<-SQL
-      SELECT * FROM students WHERE grade = 10 
-      LIMIT 1
-    SQL
-    array = DB[:conn].execute(sql).first
-    self.all.find do |x|
-      x.id == array[0]
-    end
+    self.first_x_students_in_grade_10(1).first
+    # sql = <<-SQL
+    #   SELECT * FROM students WHERE grade = 10 
+    #   LIMIT 1
+    # SQL
+    # array = DB[:conn].execute(sql).first
+    # Student.all.find do |x|
+    #   x.id == array[0]
+    # end
+    
   end
 
   def self.all_students_in_grade_X(x)
